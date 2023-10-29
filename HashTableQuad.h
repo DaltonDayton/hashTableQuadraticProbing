@@ -41,6 +41,11 @@ public:
     /// @param value The integer value to be removed from the hash table.
     void remove(int value);
 
+    /// @brief Clears the hash table of all elements.
+    /// This function will set all elements in the hash table to -1.
+    /// It will also reset the current size of the hash table to 0.
+    void clear();
+
     /// @brief Retrieves the current number of elements in the hash table.
     /// @return The count of current elements in the hash table.
     int size();
@@ -108,6 +113,15 @@ void Hashtable::remove(int value)
         table[index] = -1;
         currentSize--;
     }
+}
+
+void Hashtable::clear()
+{
+    for (int i = 0; i < tableSize; i++)
+    {
+        table[i] = -1;
+    }
+    currentSize = 0;
 }
 
 int Hashtable::size()
