@@ -3,7 +3,8 @@
 
 int main(int argc, char const *argv[])
 {
-    std::cout << "Hello" << std::endl;
+    Hashtable h1;
+    h1.insert(3);
 
     return 0;
 }

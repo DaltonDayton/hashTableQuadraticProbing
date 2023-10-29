@@ -3,5 +3,5 @@
 
 TEST(HashTableQuadConstructor, Constructor)
 {
-    HashTableQuad hashTableQuad01;
+    Hashtable h1;
 }
