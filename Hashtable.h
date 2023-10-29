@@ -22,6 +22,12 @@ private:
     /// @return The computed index after applying quadratic probing.
     int quadraticProbing(int H, int i);
 
+    /// @brief Resizes the hash table to double its current size + 1.
+    /// This function will create a new hash table with double the size of the current hash table.
+    /// It will then rehash all elements from the current hash table into the new hash table.
+    /// Finally, it will delete the old hash table and set the current hash table to the new hash table.
+    void Rehash();
+
 public:
     // Constructors
     Hashtable();
@@ -59,6 +65,13 @@ public:
     /// The load factor threshold dictates when the hash table should be resized.
     /// @return The current load factor threshold value.
     double getLoadFactorThreshhold();
+
+    /// @brief Retrieves the index of a value in the hash table.
+    /// This function will find the index of a value using quadratic probing.
+    /// If the value is not present in the table, it returns -1.
+    /// @param value The integer value to be found in the hash table.
+    /// @return The index of the value in the hash table.
+    int indexOf(int value);
 };
 
 Hashtable::Hashtable() : currentSize{0}, tableSize{7}, loadFactorThreshold{.65}
@@ -86,8 +99,33 @@ int Hashtable::quadraticProbing(int H, int i)
     // return hash(H + i * i)
 }
 
+void Hashtable::Rehash()
+{
+    int *oldTable = table;
+    int oldTableSize = tableSize;
+    tableSize = tableSize * 2 + 1;
+    table = new int[tableSize];
+    for (int i = 0; i < tableSize; i++)
+    {
+        table[i] = -1;
+    }
+    for (int i = 0; i < oldTableSize; i++)
+    {
+        if (oldTable[i] != -1)
+        {
+            insert(oldTable[i]);
+        }
+    }
+    delete[] oldTable;
+}
+
 void Hashtable::insert(const int value)
 {
+    if (currentSize >= tableSize * loadFactorThreshold)
+    {
+        Rehash();
+    }
+
     int index = hash(value);
 
     for (int i = 0; table[index] != -1; i++)
@@ -137,4 +175,23 @@ int Hashtable::capacity()
 double Hashtable::getLoadFactorThreshhold()
 {
     return loadFactorThreshold;
+}
+
+int Hashtable::indexOf(int value)
+{
+    int index = hash(value);
+
+    for (int i = 0; table[index] != value && i < tableSize; i++)
+    {
+        index = quadraticProbing(value, i);
+    }
+
+    if (table[index] == value)
+    {
+        return index;
+    }
+    else
+    {
+        return -1;
+    }
 }
