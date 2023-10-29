@@ -40,6 +40,20 @@ public:
     /// If the value is not present in the table, it takes no action.
     /// @param value The integer value to be removed from the hash table.
     void remove(int value);
+
+    /// @brief Retrieves the current number of elements in the hash table.
+    /// @return The count of current elements in the hash table.
+    int size();
+
+    /// @brief Retrieves the maximum capacity of the hash table.
+    /// This refers to the total number of slots (both occupied and unoccupied) in the hash table.
+    /// @return The capacity of the hash table.
+    int capacity();
+
+    /// @brief Retrieves the load factor threshold of the hash table.
+    /// The load factor threshold dictates when the hash table should be resized.
+    /// @return The current load factor threshold value.
+    double getLoadFactorThreshhold();
 };
 
 Hashtable::Hashtable() : currentSize{0}, tableSize{7}, loadFactorThreshold{.65}
@@ -94,4 +108,19 @@ void Hashtable::remove(int value)
         table[index] = -1;
         currentSize--;
     }
+}
+
+int Hashtable::size()
+{
+    return currentSize;
+}
+
+int Hashtable::capacity()
+{
+    return tableSize;
+}
+
+double Hashtable::getLoadFactorThreshhold()
+{
+    return loadFactorThreshold;
 }
