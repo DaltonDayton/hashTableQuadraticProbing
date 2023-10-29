@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(HashTableQuad)
+project(Hashtable)
 
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 14)
@@ -19,20 +19,20 @@ enable_testing()
 
 # Main Program Exe
 add_executable(
-  HashTableQuad
+  Hashtable
   Main.cpp
 )
 
 # Test exe
 add_executable(
-  HashTableQuad_test
-  HashTableQuad_test.cc
+  Hashtable_test
+  Hashtable_test.cc
 )
 
 target_link_libraries(
-  HashTableQuad_test
+  Hashtable_test
   GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(HashTableQuad_test)
+gtest_discover_tests(Hashtable_test)
