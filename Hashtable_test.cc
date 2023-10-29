@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "HashTableQuad.h"
+#include "Hashtable.h"
 
 // Test for the default constructor
 TEST(HashtableConstructor, DefaultConstructor)

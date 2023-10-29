@@ -1,5 +1,5 @@
 #include <iostream>
-#include "HashTableQuad.h"
+#include "Hashtable.h"
 
 int main(int argc, char const *argv[])
 {
