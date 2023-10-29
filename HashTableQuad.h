@@ -34,6 +34,12 @@ public:
     /// @brief Inserts a value into the hash table at its computed hash index.
     /// @param value The integer value to be inserted into the hash table.
     void insert(const int value);
+
+    /// @brief Removes a value from the hash table.
+    /// This function will find the value using quadratic probing and set its position to -1.
+    /// If the value is not present in the table, it takes no action.
+    /// @param value The integer value to be removed from the hash table.
+    void remove(int value);
 };
 
 Hashtable::Hashtable() : currentSize{0}, tableSize{7}, loadFactorThreshold{.65}
@@ -58,18 +64,34 @@ int Hashtable::hash(int value)
 int Hashtable::quadraticProbing(int H, int i)
 {
     return hash(H + (0 * 1) + (1 * (i * i)));
+    // return hash(H + i * i)
 }
 
 void Hashtable::insert(const int value)
 {
     int index = hash(value);
 
-    int i{0};
-    while (table[index] != -1)
+    for (int i = 0; table[index] != -1; i++)
     {
         index = quadraticProbing(value, i);
-        i++;
     }
 
     table[index] = value;
+    currentSize++;
+}
+
+void Hashtable::remove(int value)
+{
+    int index = hash(value);
+
+    for (int i = 0; table[index] != value && i < tableSize; i++)
+    {
+        index = quadraticProbing(value, i);
+    }
+
+    if (table[index] == value)
+    {
+        table[index] = -1;
+        currentSize--;
+    }
 }
