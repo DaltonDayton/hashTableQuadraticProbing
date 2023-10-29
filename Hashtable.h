@@ -10,6 +10,16 @@ private:
 
     // Private helper functions
 
+    /// @brief Determines if a given integer is prime.
+    /// @param num The integer to check.
+    /// @return True if the integer is prime, otherwise false.
+    bool isPrime(int num);
+
+    /// @brief Finds the next prime number after a given integer.
+    /// @param num The integer from which to start the search.
+    /// @return The next prime number.
+    int nextPrime(int num);
+
     /// @brief Calculates the hash index for a given value.
     /// @param value The integer value for which the hash index needs to be calculated.
     /// @return The hash index for the input value.
@@ -88,6 +98,31 @@ Hashtable::~Hashtable()
     delete[] table;
 }
 
+bool Hashtable::isPrime(int num)
+{
+    if (num <= 1)
+        return false;
+    if (num == 2 || num == 3)
+        return true;
+    if (num % 2 == 0)
+        return false;
+    for (int i = 3; i * i <= num; i += 2)
+    {
+        if (num % i == 0)
+            return false;
+    }
+    return true;
+}
+
+int Hashtable::nextPrime(int num)
+{
+    // Always search for the next prime greater than num
+    num++;
+    while (!isPrime(num))
+        num++;
+    return num;
+}
+
 int Hashtable::hash(int value)
 {
     return value % tableSize;
@@ -103,12 +138,13 @@ void Hashtable::Rehash()
 {
     int *oldTable = table;
     int oldTableSize = tableSize;
-    tableSize = tableSize * 2 + 1;
+    tableSize = nextPrime(tableSize * 2); // Updated to use nextPrime
     table = new int[tableSize];
     for (int i = 0; i < tableSize; i++)
     {
         table[i] = -1;
     }
+    currentSize = 0; // Reset current size because insert method will increment it.
     for (int i = 0; i < oldTableSize; i++)
     {
         if (oldTable[i] != -1)
